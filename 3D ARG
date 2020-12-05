@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Aug  6 11:31:13 2019
+
+@author: christinamooshil
+"""
+
+from mpl_toolkits import mplot3d
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Argument
+def reArg(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a,b] = np.angle(complex(x[a], y[b])).real
+    return z
+
+def imArg(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a,b] = np.angle(complex(x[a], y[b])).imag
+    return z
+
+def modArg(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a, b]=abs(np.angle(complex(x[a], y[b])))
+    return z
+
+def main():
+    print("Type r for real part of complex arg, i for imaginary part, m for the modulus of the complex arg fn: ")
+    response = input()
+    if response.lower() == 'r':
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        argre = reArg(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig1 = plt.figure(1)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, argre, 50, cmap=plt.cm.rainbow)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,argre, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('Re[arg(x+iy)]')
+        ax.view_init(60, 35)
+        fig1
+        print('Loading...')
+        
+    elif response.lower() == 'i':
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        argim = imArg(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig2 = plt.figure(2)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, argim, 50, cmap=plt.cm.rainbow)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,argim, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('Im[arg(x+iy)]')
+        ax.view_init(60, 35)
+        fig2
+        print('Loading...')
+        
+    elif response.lower() == 'm':
+        xmin = -10
+        xmax = 10
+        ymin = -10
+        ymax = 10
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        argmod = modArg(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig3 = plt.figure(3)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, argmod, 50, cmap=plt.cm.rainbow)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,argmod, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('|arg(x+iy)|')
+        ax.view_init(60, 35)
+        fig3     
+        print("Loading...")
+    restart = input ("Run again? y or n: ")    
+    if restart == "y":
+        main()
+
+    else:
+        exit()
+
+main()

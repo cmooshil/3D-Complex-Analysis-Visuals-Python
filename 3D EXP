@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Aug  6 11:56:12 2019
+
+@author: christinamooshil
+"""
+
+from mpl_toolkits import mplot3d
+import numpy as np
+import matplotlib.pyplot as plt
+
+#EXP FUNCTION
+def reExp(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a,b] = np.exp(complex(x[a], y[b])).real 
+    return z
+
+def imExp(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a,b] = np.exp(complex(x[a], y[b])).imag
+    return z
+
+def modExp(N_max, xmin, xmax, ymin, ymax, nx, ny):
+    x = np.linspace(xmin, xmax, nx)
+    y = np.linspace(ymax, ymin, ny)
+    z = np.zeros([nx, ny])
+    for a in range(nx):
+        for b in range(ny):
+            z[a, b]=abs(np.exp(complex(x[a], y[b])))
+    return z
+
+def main():
+    #while loop that loops program back around
+#    print("Would you like 3D or 2D contours? Type '3' for 3D, '2' for 2D.")
+#    response1 = input()
+#    #if response1 == '3':
+        
+    print("Type r for real part of complex exp, i for imaginary part, m for the modulus of the complex exp fn: ")
+    response2 = input()
+    if response2.lower() == 'r':
+        xmin = -5
+        xmax = 5
+        ymin = -5
+        ymax = 5
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        expre = reExp(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig1 = plt.figure(1)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, expre, 50, cmap=plt.cm.plasma)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,expre, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('Re[exp(x+iy)]')
+        ax.view_init(60, 35)
+        fig1
+        print('Loading...')
+    
+    elif response2.lower() == 'i':
+        xmin = -5
+        xmax = 5
+        ymin = -5
+        ymax = 5
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        expim = imExp(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig2 = plt.figure(2)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, expim, 50, cmap=plt.cm.plasma)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,expim, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('Im[exp(x+iy)]')
+        ax.view_init(60, 35)
+        fig2
+        print('Loading...')
+        
+    elif response2.lower() == 'm':
+        xmin = -5
+        xmax = 5
+        ymin = -5
+        ymax = 5
+        maxNumSteps = 32
+        pts = 200
+        
+        x = np.linspace(-6, 6, 200)
+        y = np.linspace(-6, 6, 200)
+        
+        X, Y = np.meshgrid(x, y)
+        
+        expmod = modExp(maxNumSteps, xmin, xmax, ymin, ymax, pts, pts)
+        
+        fig3 = plt.figure(3)
+        ax = plt.axes(projection='3d')
+        ax.contour3D(X, Y, expmod, 50, cmap=plt.cm.plasma)
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
+        ax.set_zlabel('z')
+        ax = plt.axes(projection='3d')
+        ax.plot_surface(X,Y,expmod, rstride=1, cstride=1,
+                        cmap='plasma', edgecolor='none')
+        ax.set_title('|exp(x+iy)|')
+        ax.view_init(60, 35)
+        fig3
+        print('Loading...')
+
+main()
